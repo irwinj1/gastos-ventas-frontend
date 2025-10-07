@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { getVentas } from "../services";
 
 interface Cliente{
     id:number,
@@ -49,6 +50,10 @@ export const useVentasStore = defineStore('storeVentas',{
     actions:{
        async getVentas(){
             try {
+
+                const response = await getVentas({page:1})
+                console.log(response?.data);
+                
                 this.ventas = [
                     {
                         id:1,
@@ -84,8 +89,49 @@ export const useVentasStore = defineStore('storeVentas',{
 
                         ],
                         total:160
+                    },
+                    {
+                        id:2,
+                        cliente:{
+                            id:1,
+                            nombre:"OPLS",
+                            telefono:12345678,
+                            direccion:"Casa",
+                            dui:"1236589",
+                            nit:null,
+                            createdAt:new Date()
+
+                        },
+                        detalleVentas:[
+                            {
+                                id:2,
+                                id_venta:1,
+                                descripcion:"venta de tranporte",
+                                cantidad:1,
+                                precioUnitario:80,
+                                ventasAfectadas:80,
+                                createdAt:new Date()
+                            },
+                            {
+                                id:3,
+                                id_venta:1,
+                                descripcion:"Flete 1",
+                                cantidad:1,
+                                precioUnitario:80,
+                                ventasAfectadas:80,
+                                createdAt:new Date()
+                            }
+
+                        ],
+                        total:160
                     }
                 ]
+                this.pagination = {
+                    current_page:1,
+                    last_page:2,
+                    per_page:1,
+                    total:2
+                }
             } catch (error) {
                 console.error(error);
                 
