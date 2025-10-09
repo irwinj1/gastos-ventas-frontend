@@ -1,26 +1,25 @@
- <template>
-  <v-navigation-drawer app v-model="props.drawer" permanent>
-    <v-list>
-  <v-list-item
-    class="d-flex align-center"
-    v-for="item in props.menu"
-    :key="item.nombre"
-    :to="item.uri"
-    link
-  >
-  <v-row>
-    <v-col><v-icon class="">{{ item.icon }}</v-icon></v-col>
-    <v-col> <v-list-item-title>{{ item.nombre }}</v-list-item-title></v-col>
-  </v-row>
-    
-   
-  </v-list-item>
-</v-list>
+<template>
+ <v-navigation-drawer app v-model="props.drawer" permanent>
+    <v-list density="compact" nav>
+      <v-list-item
+        v-for="item in props.menu"
+        :key="item.nombre"
+        :to="item.uri"
+        link
+        :active="isActive(item.uri)"
+      >
+        <v-row>
+          <v-col cols="3"><v-icon>{{ item.icon }}</v-icon></v-col>
+          <v-col><v-list-item-title>{{ item.nombre }}</v-list-item-title></v-col>
+        </v-row>
+      </v-list-item>
+    </v-list>
   </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
 
+import { useRoute } from 'vue-router'
 
 
 const props = defineProps({
@@ -28,5 +27,11 @@ const props = defineProps({
   menu: Array
 })
 
+const route = useRoute()
+
+// Función para determinar si la ruta actual coincide
+const isActive = (uri: string) => {
+  return route.path === uri
+}
 
 </script>

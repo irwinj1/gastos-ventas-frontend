@@ -127,10 +127,10 @@ export const useVentasStore = defineStore('storeVentas',{
                     }
                 ]
                 this.pagination = {
-                    current_page:1,
-                    last_page:2,
-                    per_page:1,
-                    total:2
+                    current_page:response.data.pagination.current_page,
+                    last_page:response.data.pagination.last_page,
+                    per_page:response.data.pagination.per_page,
+                    total:response.data.pagination.total
                 }
             } catch (error) {
                 console.error(error);

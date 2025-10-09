@@ -1,2 +1,3 @@
 export * from './validationTokenServices'
-export * from './ventas.services'
+export * from './ventas.service'
+export * from './clientes.service'

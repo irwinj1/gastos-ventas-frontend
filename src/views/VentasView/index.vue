@@ -17,7 +17,7 @@
                 </v-row>
             </v-col>
             <v-col class="text-end">
-                <v-btn class="text-none">Agregar</v-btn>
+                <v-btn class="text-none" @click="irVenta">Agregar</v-btn>
             </v-col>
         </v-row>
         <table-component :headers="headers" :items="items" :mostrar-paginacion="true"
@@ -37,12 +37,12 @@
                 </v-row>
             </template>
         </table-component>
-        
+     
     </v-container>
 </template>
 <script setup lang="ts">
 import TableComponent from '../../components/TableComponent.vue';
-
+import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import { useVentas } from './composables/useVentas';
 const { pagination, ventas, cargarVentas } = useVentas()
@@ -75,7 +75,7 @@ const headers = ref([
         key: 'acciones'
     }
 ])
-
+const router = useRouter()
 const items = ref<typeof ventas.value>([]);
 const perPage = ref<number>(10)
 const selected = ref<number[]>([])
@@ -89,6 +89,11 @@ const formatter = new Intl.NumberFormat('es-SV', {
 const updatePage = (page: number) => {
     console.log(page);
 
+}
+const irVenta = ()=>{
+    console.log('qui');
+    
+    router.push({name:'agregar-venta'})
 }
 
 onMounted(async () => {
