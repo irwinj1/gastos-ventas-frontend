@@ -68,7 +68,7 @@
     </v-container>
 </template>
 <script setup lang="ts">
-import ModalAgregarVentas from '../components/ModalAgregarVentas.vue';
+import ModalAgregarVentas from '../components/ModalAgregarCliente.vue';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue'
 
