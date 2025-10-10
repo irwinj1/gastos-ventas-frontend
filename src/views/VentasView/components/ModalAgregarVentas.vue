@@ -80,7 +80,19 @@
                 :error-messages="emailErrors"
               />
             </v-col>
-
+            <v-col cols="12" md="4" sm="6">
+              <v-text-field
+                label="Numero de registro*"
+                v-model="cliente.registro"
+                @blur="$v.registro.$touch"
+                required
+                variant="outlined"
+                density="compact"
+                rounded="lg"
+                :error="$v.registro.$error"
+                :error-messages="registroErrors"
+              />
+            </v-col>
             <v-col cols="12" md="4" sm="6">
               <v-text-field
                 label="Teléfono*"
@@ -149,6 +161,7 @@ const cliente = reactive<Clientes>({
   nombreComercial: "",
   dui: "",
   nit: "",
+  registro:"",
   direccion: "",
   email: "",
   telefono: "",
@@ -165,7 +178,8 @@ const rules = {
   nit: {
       required: requiredIf(() => !cliente.dui) // Será requerido si dui está vacío o es null
     },
-  dui: {required:requiredIf(()=>!cliente.nit)}
+  dui: {required:requiredIf(()=>!cliente.nit)},
+  registro:{required}
 };
 
 // Inicializamos Vuelidate
@@ -214,6 +228,13 @@ const duiErrors = computed(()=>{
 const nitErrors = computed(()=>{
   const errors: string[] = []
   const field = $v.value.nit;
+  if(!field.$dirty) return errors;
+  if(!field.required.$response) errors.push("El NIT es obligatorio")
+  return errors
+})
+const registroErrors = computed(()=>{
+  const errors: string[] = []
+  const field = $v.value.registro;
   if(!field.$dirty) return errors;
   if(!field.required.$response) errors.push("El NIT es obligatorio")
   return errors

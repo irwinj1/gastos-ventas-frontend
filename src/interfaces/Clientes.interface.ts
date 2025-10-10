@@ -6,6 +6,7 @@ export interface Clientes {
     email?: string | null;
     dui?: string | null;
     nit?: string | null;
+    registro?:string | null;
     telefono?: string | null;
     direccion?: string | null;
     esCliente?: boolean;
