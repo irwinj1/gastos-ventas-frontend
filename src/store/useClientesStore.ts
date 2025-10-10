@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getClientes, postClientes } from "../services";
+import { getClientes, postClientes,getCliente } from "../services";
 import type { Clientes } from "../interfaces";
 
 
@@ -10,11 +10,11 @@ export const useClientesStore = defineStore('storeClientes',{
         loading: false,
     }),
     actions:{
-        async getClientes(params:any){
+        async getClientes(params?:any){
             try {
                 this.loading = true
                 const response = await getClientes(params)
-
+                
                 this.clientes = response?.data?.data
             } catch (error) {
                 
@@ -26,7 +26,7 @@ export const useClientesStore = defineStore('storeClientes',{
             try {
                 this.loading = true;
                 const response = await postClientes(params)
-                console.log(response);
+        
                 
                 this.clienteSeleccionado = response.data.data
                
@@ -36,6 +36,22 @@ export const useClientesStore = defineStore('storeClientes',{
             }
             finally{
                 this.loading = false;
+            }
+        },
+        async getCliente(params:any={},id?:number){
+            try {
+                this.loading = true
+               
+                const response = await getCliente(params,id)
+                if (response.data.status == 200) {
+                    this.clienteSeleccionado = response.data.data
+                }
+                                
+            } catch (error) {
+                console.error(error);
+            }
+            finally{
+                this.loading = false
             }
         }
     }

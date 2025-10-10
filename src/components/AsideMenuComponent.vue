@@ -7,6 +7,7 @@
         :to="item.uri"
         link
         :active="isActive(item.uri)"
+        :class="isActive(item.uri)?'item-activo':''"
       >
         <v-row>
           <v-col cols="3"><v-icon>{{ item.icon }}</v-icon></v-col>
@@ -31,7 +32,14 @@ const route = useRoute()
 
 // Función para determinar si la ruta actual coincide
 const isActive = (uri: string) => {
+
   return route.path === uri
 }
 
 </script>
+<style scoped>
+.item-activo {
+  background-color: #212121; /* color de fondo del seleccionado */
+  color: white; /* color del texto */
+}
+</style>

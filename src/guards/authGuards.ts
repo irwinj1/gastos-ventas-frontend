@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { validateToken } from "../services";
+import { validateToken,refreshToken } from "../services";
 
 export const authGuard = async (to, from, next) => {
   const publicRoute: string[] = ['/login', '/register', '/forgot-password'];
@@ -8,7 +8,7 @@ export const authGuard = async (to, from, next) => {
     return next();
   }
 
-  const token: string | null = localStorage.getItem('token');
+  let token: string | null = localStorage.getItem('token');
 
   if (!token) {
     localStorage.clear();
@@ -22,8 +22,15 @@ export const authGuard = async (to, from, next) => {
 
     if (dateExp < now) {
       console.warn('Token expirado');
-      localStorage.clear();
-      return next('/login');
+      const response = await refreshToken()
+      if (response.data.status == 200) {
+        token = JSON.stringify(response.data?.data?.access_token)
+        localStorage.setItem('token',token)
+      }else{
+        localStorage.clear();
+        return next('/login');
+      }
+      
     }
     const ojb = {
         "token":token

@@ -52,7 +52,6 @@ export const useVentasStore = defineStore('storeVentas',{
             try {
 
                 const response = await getVentas({page:1})
-                console.log(response?.data);
                 
                 this.ventas = [
                     {

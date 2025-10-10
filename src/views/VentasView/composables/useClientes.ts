@@ -4,12 +4,13 @@ import { computed } from "vue";
 export function useClientes(){
     const clientesStore = useClientesStore()
     const clientes = computed(()=>clientesStore.clientes)
-    const cliente = computed(()=>clientesStore.clienteSeleccionado)
+    const cliente1 = computed(()=>clientesStore.clienteSeleccionado)
     const loading = computed(()=>clientesStore.loading)
 
-    const getClientes = async(params:any)=>{
+    const getClientes = async(params?:any)=>{
         try {
-            clientesStore.getClientes(params)
+          await clientesStore.getClientes(params)
+       
         } catch (error) {
             console.error(error);
             
@@ -24,12 +25,22 @@ export function useClientes(){
         }
     }
 
+    const getCliente = async (params:any,id?:number)=>{
+        try {
+            await clientesStore.getCliente(params,id)
+        } catch (error) {
+            console.error(error);
+            
+        }
+    }
+
     return {
         getClientes,
         clientes,
-        cliente,
+        cliente1,
         loading,
-        postCliente
+        postCliente,
+        getCliente
     }
 
 }

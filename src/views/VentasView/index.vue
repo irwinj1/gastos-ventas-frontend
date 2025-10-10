@@ -12,12 +12,12 @@
                         <v-text-field density="compact" label="Buscar" variant="outlined" clearable ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="3" sm="12">
-                        <v-btn class="text-none">buscar</v-btn>
+                        <v-btn class="text-none" color="grey-darken-4">buscar</v-btn>
                     </v-col>
                 </v-row>
             </v-col>
             <v-col class="text-end">
-                <v-btn class="text-none" @click="irVenta">Agregar</v-btn>
+                <v-btn class="text-none" color="grey-darken-4" @click="irVenta">Agregar</v-btn>
             </v-col>
         </v-row>
         <table-component :headers="headers" :items="items" :mostrar-paginacion="true"
@@ -52,6 +52,7 @@ const headers = ref([
         title: '',
         align: 'start',
         key: 'checkbox',
+        class:'header-backgroud'
     },
     {
         title: 'Id',
@@ -91,8 +92,7 @@ const updatePage = (page: number) => {
 
 }
 const irVenta = ()=>{
-    console.log('qui');
-    
+
     router.push({name:'agregar-venta'})
 }
 

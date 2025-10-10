@@ -23,6 +23,7 @@
                                             v-bind="props"
                                             density="compact"
                                             elevation="0"
+                                            color="grey-darken-4"
                                             @click="closeDialog"
                                             >
                                             <v-icon color="grey-lighten-1">

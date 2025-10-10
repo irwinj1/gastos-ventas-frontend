@@ -1,6 +1,6 @@
 <template>
     <v-row>
-        <v-data-table :headers="props.headers" :items="props.items" item-key="name" hide-default-footer>
+        <v-data-table class="table-component" :headers="props.headers" :items="props.items" item-key="name" hide-default-footer>
 
             <template v-for="header in headers" v-slot:[`item.${header.key}`]="{ item, index }">
                 <slot :name="`item.${header.key}`" :item="item" :index="index">
@@ -48,3 +48,9 @@ const onPageChange = (page: number) => {
     emit('update:page', page)
 }
 </script>
+<style scoped>
+    .table-component>>>thead {
+        background-color: #212121;
+        color: aliceblue;
+    }
+</style>
