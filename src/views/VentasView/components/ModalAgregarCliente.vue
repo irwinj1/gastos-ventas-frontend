@@ -164,7 +164,7 @@
     </v-card>
   </v-dialog>
   <loadign-component :overlay="loading" />
-  <alerta-component />
+
 </template>
 
 <script setup lang="ts">
@@ -175,7 +175,6 @@ import type { ClientesInterfaces } from "../../../interfaces";
 import useVuelidate from "@vuelidate/core";
 import { required, email, requiredIf } from "@vuelidate/validators";
 import { VForm } from "vuetify/components";
-import AlertaComponent from "../../../components/AlertaComponent.vue";
 
 
 
@@ -188,13 +187,7 @@ const props = defineProps({
     default: false,
   },
 });
-function alertSuccess(message:string,color:string) {
-  showAlert({
-    message,
-    color,
-    timeout: 4000,
-  })
-}
+
 // Envío del formulario
 const { postCliente, getCliente, cliente1, getClientes, clientes } = useClientes();
 const emit = defineEmits(["update:addVentasDialog",'obtenerCliente']);
