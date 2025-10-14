@@ -37,7 +37,7 @@ const login = async () => {
     overlay.value=true
      
     await loginUser(user)
-    console.log(results);
+   
    } catch (error) {
     console.error(error);
     

@@ -98,10 +98,11 @@ const irVenta = ()=>{
 
 onMounted(async () => {
     await cargarVentas()
+    
     perPage.value = pagination?.value.per_page;
     items.value = ventas.value
 
-    selected.value.push(1)
+   
 
 })
 </script>

@@ -1,38 +1,38 @@
 import { defineStore } from "pinia";
-import { getVentas } from "../services";
+import { getVentas,createVentas } from "../services";
 
 interface Cliente{
-    id:number,
-    nombre:string,
-    telefono:number,
-    direccion:string,
-    dui:string|null,
-    nit:string|null,
-    createdAt:Date;
+    id?:number,
+    nombre?:string,
+    telefono?:number,
+    direccion?:string,
+    dui?:string|null,
+    nit?:string|null,
+    createdAt?:Date;
 }
 
 interface DetalleVenta{
-    id:number,
-    id_venta:number,
-    descripcion:string,
-    cantidad:number,
-    precioUnitario:number,
-    ventasAfectadas:number,
-    createdAt:Date
+    id?:number,
+    id_venta?:number,
+    descripcion?:string,
+    cantidad?:number,
+    precioUnitario?:number,
+    ventasAfectadas?:number,
+    createdAt?:Date
 }
 
 interface Venta {
-    id: number;
-    cliente:Cliente,
-    detalleVentas:DetalleVenta[]
-    total:number
+    id?: number;
+    cliente?:Cliente,
+    detalleVentas?:DetalleVenta[]
+    total?:number
   }
   
   interface Pagination {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
+    current_page?: number;
+    last_page?: number;
+    per_page?: number;
+    total?: number;
   }
   
   interface VentasState {
@@ -52,89 +52,49 @@ export const useVentasStore = defineStore('storeVentas',{
             try {
 
                 const response = await getVentas({page:1})
+               
                 
-                this.ventas = [
-                    {
-                        id:1,
-                        cliente:{
-                            id:1,
-                            nombre:"OPLS",
-                            telefono:12345678,
-                            direccion:"Casa",
-                            dui:"1236589",
-                            nit:null,
-                            createdAt:new Date()
-
-                        },
-                        detalleVentas:[
-                            {
-                                id:1,
-                                id_venta:1,
-                                descripcion:"venta de tranporte",
-                                cantidad:1,
-                                precioUnitario:80,
-                                ventasAfectadas:80,
-                                createdAt:new Date()
-                            },
-                            {
-                                id:1,
-                                id_venta:2,
-                                descripcion:"Flete 1",
-                                cantidad:1,
-                                precioUnitario:80,
-                                ventasAfectadas:80,
-                                createdAt:new Date()
-                            }
-
-                        ],
-                        total:160
-                    },
-                    {
-                        id:2,
-                        cliente:{
-                            id:1,
-                            nombre:"OPLS",
-                            telefono:12345678,
-                            direccion:"Casa",
-                            dui:"1236589",
-                            nit:null,
-                            createdAt:new Date()
-
-                        },
-                        detalleVentas:[
-                            {
-                                id:2,
-                                id_venta:1,
-                                descripcion:"venta de tranporte",
-                                cantidad:1,
-                                precioUnitario:80,
-                                ventasAfectadas:80,
-                                createdAt:new Date()
-                            },
-                            {
-                                id:3,
-                                id_venta:1,
-                                descripcion:"Flete 1",
-                                cantidad:1,
-                                precioUnitario:80,
-                                ventasAfectadas:80,
-                                createdAt:new Date()
-                            }
-
-                        ],
-                        total:160
-                    }
-                ]
+                this.ventas = response.data.data
                 this.pagination = {
-                    current_page:response.data.pagination.current_page,
-                    last_page:response.data.pagination.last_page,
-                    per_page:response.data.pagination.per_page,
-                    total:response.data.pagination.total
+                    current_page:response.data?.pagination.current_page,
+                    last_page:response.data?.pagination.last_page,
+                    per_page:response.data?.pagination.per_page,
+                    total:response.data?.pagination.total
                 }
             } catch (error) {
                 console.error(error);
                 
             }
-        }
+        },
+        async createVenta(params: any) {
+            try {
+             
+              
+                const formData = new FormData();
+              
+                // Convertimos detalleVentas a JSON
+                formData.append("detalleVentas", JSON.stringify(params.detalleVentas));
+              
+                // Cliente
+                if (params.clienteId) {
+                  formData.append("clienteId", params.clienteId);
+                }
+              
+                // Adjuntar imágenes
+                params.detalleVentas.forEach((item:any, index:any) => {
+                  
+                    if (item.image instanceof File) {
+                      formData.append(`imagenes[${index}]`, item.image); // esto está correcto
+                    }
+                  });
+              
+                // Enviar al backend
+                const response = await createVentas(formData); 
+              
+              
+              } catch (error) {
+                console.error(error);
+              }
+          }
     }
 })

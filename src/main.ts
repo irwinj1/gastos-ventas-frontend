@@ -8,7 +8,6 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { createPinia } from 'pinia'
 
-
 // Importar íconos opcionales (Material Design Icons)
 import '@mdi/font/css/materialdesignicons.css'
 

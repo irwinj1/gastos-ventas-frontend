@@ -1,5 +1,6 @@
 // Cliente.interface.ts
-export interface Clientes {
+export interface ClientesInterfaces {
+    id?: number | null;
     nombre?: string | null;
     apellido?: string | null;
     nombreComercial?: string | null;

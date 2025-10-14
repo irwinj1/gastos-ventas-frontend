@@ -33,6 +33,7 @@ export const useClientesStore = defineStore('storeClientes',{
             } catch (error) {
                 console.error(error);
                 
+                
             }
             finally{
                 this.loading = false;
