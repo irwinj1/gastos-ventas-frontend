@@ -31,9 +31,9 @@
             </template>
             <template v-slot:[`item.acciones`]="{ item }">
                 <v-row>
-                    <v-btn density="compact" icon="mdi-eye-outline" elevation="0"></v-btn>
+                    <v-btn density="compact" icon="mdi-eye-outline" elevation="0"  ></v-btn>
                     <v-btn density="compact" icon="mdi-pencil-outline" elevation="0"></v-btn>
-                    <v-btn density="compact" icon="mdi-delete-outline" elevation="0"></v-btn>
+                    <v-btn density="compact" icon="mdi-delete-outline" elevation="0" @click="eliminarVenta(item)" ></v-btn>
                 </v-row>
             </template>
         </table-component>
@@ -45,6 +45,7 @@ import TableComponent from '../../components/TableComponent.vue';
 import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import { useVentas } from './composables/useVentas';
+import type { ClientesInterfaces } from '../../interfaces';
 const { pagination, ventas, cargarVentas } = useVentas()
 
 const headers = ref([
@@ -52,7 +53,8 @@ const headers = ref([
         title: '',
         align: 'start',
         key: 'checkbox',
-        class:'header-backgroud'
+        class:'header-backgroud',
+        headerProps: { style: 'width:5%' }
     },
     {
         title: 'Id',
@@ -73,7 +75,8 @@ const headers = ref([
     {
         title: 'Acciones',
         align: 'start',
-        key: 'acciones'
+        key: 'acciones',
+        headerProps: { style: 'width:15%' }
     }
 ])
 const router = useRouter()
@@ -95,7 +98,13 @@ const irVenta = ()=>{
 
     router.push({name:'agregar-venta'})
 }
-
+const eliminarVenta = (item:ClientesInterfaces)=>{
+    try {
+        
+    } catch (error) {
+        
+    }
+}
 onMounted(async () => {
     await cargarVentas()
     

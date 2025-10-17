@@ -16,10 +16,19 @@ export function useVentas() {
     } catch (error) {}
   };
 
+  const eliminarFactura = async (params:number)=>{
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
+
   return {
     ventas,
     pagination,
     cargarVentas,
     createVenta,
+    eliminarFactura
   };
 }

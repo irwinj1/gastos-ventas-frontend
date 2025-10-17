@@ -55,6 +55,7 @@
               <v-text-field
                 label="DUI*"
                 v-model="cliente.dui"
+                v-maska="'########-#'"
                 @blur="$v.dui.$touch"
                 required
                 variant="outlined"
@@ -70,6 +71,7 @@
               <v-text-field
                 label="NIT*"
                 v-model="cliente.nit"
+                @input="validateDocument"
                 @blur="$v.nit.$touch"
                 required
                 variant="outlined"
@@ -80,7 +82,6 @@
                 :disabled="isCliente"
               />
             </v-col>
-
             <v-col cols="12" md="4" sm="6">
               <v-text-field
                 label="Email*"
@@ -114,6 +115,7 @@
                 label="Teléfono*"
                 v-model="cliente.telefono"
                 @blur="$v.telefono.$touch"
+                v-maska="'####-####'"
                 required
                 variant="outlined"
                 density="compact"
@@ -175,7 +177,7 @@ import type { ClientesInterfaces } from "../../../interfaces";
 import useVuelidate from "@vuelidate/core";
 import { required, email, requiredIf } from "@vuelidate/validators";
 import { VForm } from "vuetify/components";
-
+import { aplicarMascara } from "../../../config/utils";
 
 
 
@@ -298,6 +300,10 @@ const limpiarCliente = () => {
   cliente.telefono = "";
 };
 
+const validateDocument = ()=>{
+  const validate = aplicarMascara(cliente.nit)
+  cliente.nit = validate
+}
 // Control del diálogo
 const modelValue = computed({
   get: () => props.addVentasDialog,

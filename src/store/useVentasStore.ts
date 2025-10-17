@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getVentas,createVentas } from "../services";
+import { getVentas,createVentas, deleteVentas } from "../services";
 
 interface Cliente{
     id?:number,
@@ -95,6 +95,15 @@ export const useVentasStore = defineStore('storeVentas',{
               } catch (error) {
                 console.error(error);
               }
+          },
+          async eliminarFactura(id:number){
+            try {
+                const response = await deleteVentas(id);
+                return response.data
+            } catch (error) {
+                console.error(error);
+                
+            }
           }
     }
 })
