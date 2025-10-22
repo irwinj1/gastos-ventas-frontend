@@ -6,8 +6,8 @@ export function useVentas() {
   const ventas = computed(() => ventasStore.ventas);
   const pagination = computed(() => ventasStore.pagination);
 
-  const cargarVentas = async () => {
-    await ventasStore.getVentas();
+  const cargarVentas = async (page:number,params?:any) => {
+    await ventasStore.getVentas(page,params);
   };
 
   const createVenta = async (params: any) => {

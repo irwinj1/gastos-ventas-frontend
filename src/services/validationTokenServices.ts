@@ -1,6 +1,6 @@
 import { httpClient } from "../config/utils";
 
-export const validateToken = async (token:string)=>  await httpClient.post('/auth/validate-token',token);
+export const validateToken = async (token:any)=>  await httpClient.post('/auth/validate-token',token);
 
 export const refreshToken = async () => await httpClient.post('/auth/refresh')
 

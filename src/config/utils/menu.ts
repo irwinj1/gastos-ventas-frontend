@@ -18,5 +18,10 @@ export const menu: MenuItem[] = [
         nombre:"Gatos",
         uri:"/gastos",
         icon:"mdi-network-pos"
+    },
+    {
+        nombre:"Clientes",
+        uri:"/clientes",
+        icon:"mdi-account-group-outline"
     }
 ]

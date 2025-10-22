@@ -20,7 +20,7 @@
                 <v-btn class="text-none" color="grey-darken-4" @click="irVenta">Agregar</v-btn>
             </v-col>
         </v-row>
-        <table-component :headers="headers" :items="items" :mostrar-paginacion="true"
+        <table-component :headers="headers" :items="ventas" :mostrar-paginacion="true"
             :pagination="pagination?.last_page" :per-page="pagination?.per_page" @update:page="updatePage">
             <template v-slot:[`item.checkbox`]="{ item }">
                 <v-checkbox v-model="selected" :value="item.id" density="compact"></v-checkbox>
@@ -80,8 +80,8 @@ const headers = ref([
     }
 ])
 const router = useRouter()
-const items = ref<typeof ventas.value>([]);
-const perPage = ref<number>(10)
+
+
 const selected = ref<number[]>([])
 const formatter = new Intl.NumberFormat('es-SV', {
     style: 'currency',
@@ -90,9 +90,22 @@ const formatter = new Intl.NumberFormat('es-SV', {
     maximumFractionDigits: 2,
 });
 
-const updatePage = (page: number) => {
-    console.log(page);
+const updatePage = async(page: number) => {
+    try {
+        console.log(page);
+        
+        await getVentas(page)
+    } catch (error) {
+        
+    }
+}
 
+const getVentas = async (page:number,params?:any)=>{
+    try {
+        await cargarVentas(page,params)
+    } catch (error) {
+        
+    }
 }
 const irVenta = ()=>{
 
@@ -106,10 +119,9 @@ const eliminarVenta = (item:ClientesInterfaces)=>{
     }
 }
 onMounted(async () => {
-    await cargarVentas()
+    await getVentas(1)
     
-    perPage.value = pagination?.value.per_page;
-    items.value = ventas.value
+   
 
    
 

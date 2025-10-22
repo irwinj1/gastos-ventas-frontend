@@ -1,4 +1,3 @@
-// Cliente.interface.ts
 export interface ClientesInterfaces {
     id?: number | null;
     nombre?: string | null;

@@ -1,7 +1,8 @@
-import { createMemoryHistory, createRouter } from "vue-router";
+import { createMemoryHistory, createRouter, createWebHistory } from "vue-router";
 import { authGuard } from "../guards/authGuards";
 import { ventasRoute } from "../views/VentasView/routes";
 import { gastosRoute } from "../views/GastosView/routes";
+import { clientesRoute } from "../views/ClientesView/router";
 
 const routes = [
     {
@@ -15,7 +16,8 @@ const routes = [
             },
             
             ...ventasRoute,
-            ...gastosRoute
+            ...gastosRoute,
+            ...clientesRoute
         ],
         meta:{requiresAuth:true}
     },
@@ -27,7 +29,7 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createMemoryHistory(),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes
 })
 

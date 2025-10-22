@@ -48,10 +48,9 @@ export const useVentasStore = defineStore('storeVentas',{
         pagination:null
     }),
     actions:{
-       async getVentas(){
+       async getVentas(page:number,params?:any){
             try {
-
-                const response = await getVentas({page:1})
+                const response = await getVentas(page,params)
                
                 
                 this.ventas = response.data.data

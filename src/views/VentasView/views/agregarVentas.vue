@@ -154,6 +154,7 @@
       </template>
     </v-tooltip>
   </v-container>
+  <loadign-component :overlay="overlay" />
 </template>
 <script setup lang="ts">
 import TableComponent from "../../../components/TableComponent.vue";
@@ -164,6 +165,7 @@ import { onMounted, reactive, ref } from "vue";
 import { useClientes } from "../composables/useClientes";
 import { useVentas } from "../composables/useVentas";
 import { ClientesInterfaces } from "../../../interfaces";
+import LoadignComponent from "../../../components/LoadignComponent.vue";
 
 const show = ref(false);
 const router = useRouter();
@@ -207,6 +209,7 @@ const headers = ref([
     key: "acciones",
   },
 ]);
+const overlay = ref<boolean>(false)
 let items = reactive<string[]>([]);
 const getClientess = async (params: any) => {
   try {
@@ -271,13 +274,20 @@ const eliminarItem = (item: any) => {
 const guardarVenta = async() => {
  
   try {
+    overlay.value=true
     const obj= {
         clienteId:cliente.id,
         detalleVentas:items
     }
     
     await createVenta(obj)
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+    
+  }finally{
+    overlay.value=false
+    router.push({name:"ventas"})
+  }
 };
 const obtenerClientes = async()=>{
   await getClientess({ esCliente: 1 });

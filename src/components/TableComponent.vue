@@ -62,8 +62,13 @@ const onPageChange = (page: number) => {
 };
 </script>
 <style scoped>
-.table-component >>> thead {
+.table-component :deep(thead)  {
   background-color: #212121;
+  color: aliceblue;
+}
+
+.table-component :deep(thead:focus) {
+
   color: aliceblue;
 }
 </style>
