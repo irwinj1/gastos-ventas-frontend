@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
-import { getClientes, postClientes,getCliente } from "../services";
+import { getClientes, postClientes,getCliente, elminarCliente } from "../services";
 import type { ClientesInterfaces } from "../interfaces";
+import { useAlert } from "../composable/useAlert";
 
-
+const alert = useAlert();
 export const useClientesStore = defineStore('storeClientes',{
     state:()=>({
         clientes: [] as ClientesInterfaces[],
@@ -29,45 +30,59 @@ export const useClientesStore = defineStore('storeClientes',{
                     total:response.data?.pagination?.total
                 }
                 this.clientes = response?.data?.data
+               
             } catch (error) {
-                
+                alert.show('Error al obtener clientes','Error')
             }finally{
+            //    setTimeout(()=>{
+            //     alert.close()
+            //    },3000)
                 this.loading = false
             }
         },
         async postCliente(params:any){
             try {
                 this.loading = true;
-                const response = await postClientes(params)
-        
-               
-                
+                const response = await postClientes(params)              
                 this.clienteSeleccionado = response.data.data
-                
+                alert.show('Se creo correctamente el cliente','success')
                return response
+               
             } catch (error) {
-                console.error(error);
+                console.log(error);
                 
-                
+                alert.show('Error al crear el cliente','error')
             }
             finally{
                 this.loading = false;
             }
         },
-        async getCliente(params:any={},id?:number){
+        async getCliente(id?:number){
             try {
                 this.loading = true
                
-                const response = await getCliente(params,id)
+                const response = await getCliente(id)
                 if (response.data.status == 200) {
+                    alert.show('Cliente obtenido correctamente','success')
                     this.clienteSeleccionado = response.data.data
                 }
                                 
             } catch (error) {
-                console.error(error);
+                alert.show('Error al obtener el cliente','error')
             }
             finally{
                 this.loading = false
+            }
+        },
+
+        async eliminarCliente(id:number){
+            try {
+                const response = await elminarCliente(id)
+                if (response.data.status == 200) {
+                    alert.show('Cliente se elimino correctamente','success')
+                }
+            } catch (error) {
+                alert.show('Error al eliminar el cliente','error')
             }
         }
     }

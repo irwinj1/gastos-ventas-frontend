@@ -6,15 +6,15 @@ export const clientesRoute = [
       meta: { requiresAuth: true },
     },
     {
-      path: '/add-cliente',
+      path: '/agregar-cliente',
       name: 'addCliente',
       component: () => import('./views/AddClient.vue'),
       meta: { requiresAuth: true },
     },
     {
-      path: '/update-cliente',
+      path: '/editar-cliente/:id',
       name: 'updateCliente',
-      component: () => import('./views/AddClient.vue'),
+      component: () => import('./views/UpdateClient.vue'),
       meta: { requiresAuth: true },
     },
   ];

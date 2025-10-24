@@ -6,6 +6,7 @@ export function useClientes(){
     const clientesStore = useClientesStore()
     const clientes = computed(()=>clientesStore.clientes)
     const pagination = computed(()=>clientesStore.pagination)
+    const cliente1 = computed(()=>clientesStore.clienteSeleccionado)
     const headers = ref([
         {
             title: '',
@@ -76,6 +77,21 @@ export function useClientes(){
             
         }
     }
+    const getClient = async(id:number)=>{
+        try {
+            await clientesStore.getCliente(id)
+        } catch (error) {
+            
+        }
+    }
+
+    const eliminarClientes = async (id:number)=>{
+        try {
+            await clientesStore.eliminarCliente(id)
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
 
     return {
@@ -83,6 +99,9 @@ export function useClientes(){
         items,
         clientes,
         getClientes,
-        pagination
+        pagination,
+        eliminarClientes,
+        getClient,
+        cliente1
     }
 }

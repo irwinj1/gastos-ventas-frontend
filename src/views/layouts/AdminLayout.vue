@@ -10,6 +10,7 @@
     <v-main>
       <v-container fluid>
         <router-view></router-view>
+        <alert-component />
       </v-container>
       <footer-component class="position-fixed bottom-0" style="width: -webkit-fill-available;"></footer-component>
     </v-main>
@@ -23,6 +24,7 @@ import AsideMenuComponent from '../../components/AsideMenuComponent.vue'
 import ToolBarComponent from '../../components/ToolBarComponent.vue'
 import { menu } from '../../config/utils/menu'
 import FooterComponent from '../../components/FooterComponent.vue'
+import AlertComponent from '../../components/AlertComponent.vue'
 
 const drawer = ref(false)
 

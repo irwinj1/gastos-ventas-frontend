@@ -142,20 +142,28 @@ const props = defineProps({
     isGoback:{
         type:Boolean,
         default:false
+    },
+    clienteData:{
+      type:Object,
+      default:{}
+    },
+    isUpdated:{
+      type:Boolean,
+      default:false
     }
 })
+
 // Envío del formulario
 const { postCliente } = useClientes();
 const emit = defineEmits(["update:addVentasDialog",'obtenerCliente']);
-const loading = ref<boolean>(false);
-const searchTimeout = ref<number | null>(null); 
+
 // Para debounce
 const goBack = computed({
     get: () => props.isGoback,
     set:(value)=>emit("update:addVentasDialog", value)
 })
 
-const cliente = reactive<ClientesInterfaces>({
+let cliente = reactive<ClientesInterfaces>({
   nombre: "",
   apellido: "",
   nombreComercial: "",
@@ -267,11 +275,11 @@ const validateDocument = ()=>{
 
 
 async function submitForm()  {
+  
     const valid = await $v.value.$validate()
     if (!valid) return false
 
-    // Aquí tu lógica de envío (por ejemplo, API)
-    console.log('Formulario válido. Datos:', cliente)
+ 
     const response = await postCliente(cliente)
     if (response?.data?.status == 200) {
         return true
@@ -285,6 +293,23 @@ watch(goBack,(newValue)=>{
         limpiarCliente();
     }
 })
+watch(() => props.clienteData,
+  (newValue) => {
+    if (newValue) {
+      console.log(newValue);
+      cliente.id = newValue.id
+      cliente.nombre = newValue.nombre
+      cliente.apellido = newValue.apellido
+      cliente.nombreComercial = newValue.nombre_comercial
+      cliente.dui = newValue.dui
+      cliente.nit = newValue.nit
+      cliente.email = newValue.email
+      cliente.registro = newValue.n_registro
+      cliente.telefono = newValue.telefono
+      cliente.direccion = newValue.direccion
+    }
+  },
+  { immediate: true })
 
 onMounted(async () => {
   try {

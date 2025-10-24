@@ -26,7 +26,7 @@
             text="Guardar"
             variant="elevated"
             rounded="lg"
-           
+            @click="guardar"
             class="text-none"
            
           />
@@ -61,7 +61,7 @@ const props = defineProps({
     }
 })
 
-const emit= defineEmits(['closeDialog'])
+const emit= defineEmits(['closeDialog','aceptarEvento'])
 
 const closeDialog = ()=>{
     try {
@@ -69,5 +69,8 @@ const closeDialog = ()=>{
     } catch (error) {
         
     }
+}
+const guardar = ()=>{
+  emit('aceptarEvento')
 }
 </script>

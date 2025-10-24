@@ -9,14 +9,14 @@ export function useClientes(){
     const clientes = computed(()=>clienteStore.clientes)
     const cliente1 = computed(()=>clienteStore.clienteSeleccionado)
 
-    const getClientes = async()=>{
-        try {
-            const respone = await clienteStore.getClientes()
-        } catch (error) {
-            console.error(error);
+    // const getClientes = async()=>{
+    //     try {
+    //         const respone = await clienteStore.getClientes()
+    //     } catch (error) {
+    //         console.error(error);
             
-        }
-    }
+    //     }
+    // }
     const postCliente = async (params:ClientesInterfaces)=>{
         try {
             const respone = await clienteStore.postCliente(params)
