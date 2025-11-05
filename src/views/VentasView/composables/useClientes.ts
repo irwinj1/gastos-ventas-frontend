@@ -25,9 +25,9 @@ export function useClientes(){
         }
     }
 
-    const getCliente = async (params:any,id?:number)=>{
+    const getCliente = async (id:number)=>{
         try {
-            await clientesStore.getCliente(params,id)
+            await clientesStore.getCliente(id)
         } catch (error) {
             console.error(error);
             

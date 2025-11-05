@@ -1,147 +1,9 @@
 <template>
   <v-dialog v-model="modelValue" width="auto" persistent>
     <v-card prepend-icon="mdi-account" title="Cliente" width="700" rounded="xl">
-      <v-form @submit.prevent="submitForm" ref="vForm">
+      
         <v-card-text>
-          <v-row dense>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                label="Nombre*"
-                v-model="cliente.nombre"
-                @input="onNombreApellidoChange"
-                required
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                :disabled="isCliente"
-              />
-            </v-col>
-
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                label="Apellido"
-                v-model="cliente.apellido"
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                @input="onNombreApellidoChange"
-                :disabled="isCliente"
-              />
-            </v-col>
-            
-            <v-col cols="12" md="4" sm="6">
-              <v-combobox
-                label="Nombre comercial*"
-                v-model="cliente.nombreComercial"
-                :items="clientes"
-                item-title="nombreComercial"
-                item-value="nombreComercial"
-                :loading="loading"
-                clearable
-                persistent-hint
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                :error="$v.nombreComercial.$error"
-                :error-messages="nombreComercialErrors"
-                @update:search="onSearchNombreComercial"
-                @update:model-value="onClienteSeleccionado"
-                @click:clear="limpiarClienteForm"
-                no-filter
-              />
-            </v-col>
-
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                label="DUI*"
-                v-model="cliente.dui"
-                v-maska="'########-#'"
-                @blur="$v.dui.$touch"
-                required
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                :error="$v.dui.$error"
-                :error-messages="duiErrors"
-                :disabled="isCliente"
-              />
-            </v-col>
-
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                label="NIT*"
-                v-model="cliente.nit"
-                @input="validateDocument"
-                @blur="$v.nit.$touch"
-                required
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                :error="$v.nit.$error"
-                :error-messages="nitErrors"
-                :disabled="isCliente"
-              />
-            </v-col>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                label="Email*"
-                v-model="cliente.email"
-                @blur="$v.email.$touch"
-                required
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                :error="$v.email.$error"
-                :error-messages="emailErrors"
-                :disabled="isCliente"
-              />
-            </v-col>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                label="Numero de registro*"
-                v-model="cliente.registro"
-                @blur="$v.registro.$touch"
-                required
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                :error="$v.registro.$error"
-                :error-messages="registroErrors"
-                :disabled="isCliente"
-              />
-            </v-col>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                label="Teléfono*"
-                v-model="cliente.telefono"
-                @blur="$v.telefono.$touch"
-                v-maska="'####-####'"
-                required
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                :error="$v.telefono.$error"
-                :error-messages="telefonoErrors"
-                :disabled="isCliente"
-              />
-            </v-col>
-
-            <v-col cols="12" md="4" sm="6">
-              <v-textarea
-                label="Dirección*"
-                v-model="cliente.direccion"
-                @blur="$v.direccion.$touch"
-                required
-                variant="outlined"
-                density="compact"
-                rounded="lg"
-                rows="1"
-                :error="$v.direccion.$error"
-                :error-messages="direccionErrors"
-                :disabled="isCliente"
-              />
-            </v-col>
-          </v-row>
+         <form-cliente-component ref="clienteForm"></form-cliente-component>
         </v-card-text>
 
         <v-card-actions class="align-center justify-center">
@@ -159,10 +21,10 @@
             rounded="lg"
             @click="submitForm"
             class="text-none"
-            :disabled="isCliente"
+            
           />
         </v-card-actions>
-      </v-form>
+     
     </v-card>
   </v-dialog>
   <loadign-component :overlay="loading" />
@@ -176,6 +38,7 @@ import { useClientes } from "../composables/useClientes";
 import type { ClientesInterfaces } from "../../../interfaces";
 import useVuelidate from "@vuelidate/core";
 import { required, email, requiredIf } from "@vuelidate/validators";
+import FormClienteComponent from "../../../components/FormClienteComponent.vue";
 import { VForm } from "vuetify/components";
 import { aplicarMascara } from "../../../config/utils";
 
@@ -189,6 +52,7 @@ const props = defineProps({
     default: false,
   },
 });
+const clienteForm = ref<InstanceType<typeof FormClienteComponent> | null>(null)
 
 // Envío del formulario
 const { postCliente, getCliente, cliente1, getClientes, clientes } = useClientes();
@@ -317,23 +181,24 @@ const closeDialog = () => {
 };
 
 const submitForm = async () => {
+  
   $v.value.$touch();
   if ($v.value.$invalid) {
     return;
   }
+
+  console.log("Cliente a guardar:", cliente);
+
   try {
     loading.value = true;
     await postCliente(cliente);
-    // si da error guardar  cliente
-
-    emit('obtenerCliente')
+    emit('obtenerCliente');
     closeDialog();
-    loading.value = false;
-    
     await getClientes();
   } catch (error) {
-    loading.value = false;
     console.error('Error al guardar cliente:', error);
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -425,20 +290,24 @@ const onSearchNombreComercial = async (value: string) => {
 };
 
 const onClienteSeleccionado = (value: string) => {
+  
   if (value) {
     const seleccionado = clientes.value.find(
-      (c) => c.nombreComercial === value
+      (c) => c.nombreComercial === value.nombreComercial
     );
+
     if (seleccionado) {
-      cliente.nombre = seleccionado.nombre;
-      cliente.apellido = seleccionado.apellido;
-      cliente.dui = seleccionado.dui;
-      cliente.nit = seleccionado.nit;
-      cliente.nombreComercial = value;
-      cliente.registro = seleccionado.n_registro;
-      cliente.email = seleccionado.email;
-      cliente.direccion = seleccionado.direccion;
-      cliente.telefono = seleccionado.telefono;
+      console.log(seleccionado);
+      
+      cliente.nombre = seleccionado?.nombre;
+      cliente.apellido = seleccionado?.apellido;
+      cliente.dui = seleccionado?.dui;
+      cliente.nit = seleccionado?.nit;
+      cliente.nombreComercial = seleccionado?.nombreComercial;
+      cliente.registro = seleccionado?.nRegistro;
+      cliente.email = seleccionado?.email;
+      cliente.direccion = seleccionado?.direccion;
+      cliente.telefono = seleccionado?.telefono;
       isCliente.value = false;
     } else {
       limpiarCamposExceptoNombreComercial();

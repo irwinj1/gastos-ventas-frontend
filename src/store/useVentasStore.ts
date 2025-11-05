@@ -55,10 +55,10 @@ export const useVentasStore = defineStore('storeVentas',{
                 
                 this.ventas = response.data.data
                 this.pagination = {
-                    current_page:response.data?.pagination.current_page,
-                    last_page:response.data?.pagination.last_page,
-                    per_page:response.data?.pagination.per_page,
-                    total:response.data?.pagination.total
+                    current_page:response.data?.pagination?.current_page,
+                    last_page:response.data?.pagination?.last_page,
+                    per_page:response.data?.pagination?.per_page,
+                    total:response.data?.pagination?.total
                 }
             } catch (error) {
                 console.error(error);
@@ -80,12 +80,12 @@ export const useVentasStore = defineStore('storeVentas',{
                 }
               
                 // Adjuntar imágenes
-                params.detalleVentas.forEach((item:any, index:any) => {
+               // params.detalleVentas.forEach((item:any, index:any) => {
                   
-                    if (item.image instanceof File) {
-                      formData.append(`imagenes[${index}]`, item.image); // esto está correcto
+                    if (params?.image instanceof File) {
+                      formData.append(`imagenes`, params.image); // esto está correcto
                     }
-                  });
+                 // });
               
                 // Enviar al backend
                 const response = await createVentas(formData); 

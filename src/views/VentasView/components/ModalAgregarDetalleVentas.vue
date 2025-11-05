@@ -67,15 +67,7 @@
                 persistent-hint
               ></v-text-field>
             </v-col>
-            <v-col cols="12">
-              <v-file-input
-                variant="outlined"
-                density="compact"
-                label="Imagen"
-                rounded="lg"
-                @update:model-value="onImageChange"
-              ></v-file-input>
-            </v-col>
+            
           </v-row>
         </v-card-text>
 
@@ -123,14 +115,12 @@ interface DetalleVenta {
   descripcion: string;
   cantidad: number;
   precioUnitario: number;
-  image: File | null; // archivo cargado
 }
 
 const detalleVenta = reactive<DetalleVenta>({
   descripcion: "",
   cantidad: 0,
   precioUnitario: 0,
-  image: null,
 });
 
 // Reglas de validación mejoradas
@@ -226,7 +216,7 @@ const agregarDetalle = async () => {
       cantidad: detalleVenta.cantidad,
       precioUnitario: detalleVenta.precioUnitario,
       total: parseFloat(totalVentasAfectadas.value),
-      image: detalleVenta.image
+      
     };
 
     // Emitir evento con los datos del detalle
@@ -242,9 +232,6 @@ const agregarDetalle = async () => {
   }
 };
 
-const onImageChange = (e: any) => {
-  detalleVenta.image = e
-};
 
 // Opcional: Limpiar datos cuando se abre el diálogo
 watch(modelValue, (newValue) => {

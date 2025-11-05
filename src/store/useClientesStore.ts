@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getClientes, postClientes,getCliente, elminarCliente } from "../services";
+import { getClientes, postClientes,getCliente, elminarCliente, updateCliente } from "../services";
 import type { ClientesInterfaces } from "../interfaces";
 import { useAlert } from "../composable/useAlert";
 
@@ -72,6 +72,22 @@ export const useClientesStore = defineStore('storeClientes',{
             }
             finally{
                 this.loading = false
+            }
+        },
+
+        async updatedCliente (id:number, params:ClientesInterfaces){
+            try {
+                console.log(params);
+                
+                const response = await updateCliente(id,params);
+                
+                if (response?.data?.status == 200) {
+                    return true;   
+                }
+            } catch (error) {
+                console.log(error);
+                
+                alert.show('Error al actualizar el cliente '+ error,'error')
             }
         },
 

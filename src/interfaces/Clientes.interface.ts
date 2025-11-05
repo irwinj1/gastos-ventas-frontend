@@ -1,3 +1,5 @@
+import type { DepartamentosInterfaces, DistritosInterfaces, MunicipiosInterfaces, PaisesInterfaces } from "./Catalogos.interfaces";
+
 export interface ClientesInterfaces {
     id?: number | null;
     nombre?: string | null;
@@ -11,4 +13,8 @@ export interface ClientesInterfaces {
     direccion?: string | null;
     esCliente?: boolean;
     esProveedor?: boolean;
+    distrito?: DistritosInterfaces | null,
+    municipio?: MunicipiosInterfaces | null,
+    departamento?: DepartamentosInterfaces | null,
+    pais?: PaisesInterfaces | null
   }

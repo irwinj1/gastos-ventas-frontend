@@ -17,4 +17,10 @@ export const clientesRoute = [
       component: () => import('./views/UpdateClient.vue'),
       meta: { requiresAuth: true },
     },
+    {
+      path: '/ver-cliente/:id',
+      name: 'verCliente',
+      component: () => import('./views/UpdateClient.vue'),
+      meta: { requiresAuth: true },
+    },
   ];

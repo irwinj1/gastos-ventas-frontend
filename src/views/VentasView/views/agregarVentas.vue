@@ -1,7 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" class="text-h4 font-weight-bold text-center">
+      <v-col cols="12" md="2">
+        <v-btn class="text-none" @click="$router.back()">Regresar</v-btn>
+      </v-col>
+      <v-col cols="12" md="8" class="text-h4 font-weight-bold text-center">
         <p>Agregar venta</p>
       </v-col>
     </v-row>
@@ -36,9 +39,9 @@
                     variant="outlined"
                     :items="clientes"
                     item-title="nombreComercial"
-                    item-value="nombreComercial"
+                    item-value="id"
                     :rounded="'lg'"
-                    @update:search="onChangeCliente"
+                    @update:model-value="onChangeCliente"
                   ></v-combobox>
                 </v-col>
                 <v-col cols="12" md="4" sm="12">
@@ -128,6 +131,27 @@
           </v-card-item>
         </v-card>
       </v-col>
+      <v-col cols="12">
+
+        <div class="text-center text-caption">Archivo factura</div>
+        <v-card
+          :variant="'outlined'"
+          color="surface-variant"
+          label="Detalle factura"
+        >
+          <v-card-item>
+            <v-card-text>
+              <v-file-input
+                variant="outlined"
+                density="compact"
+                label="Imagen"
+                rounded="lg"
+                @update:model-value="onImageChange"
+              ></v-file-input>
+            </v-card-text>
+          </v-card-item>
+          </v-card>
+            </v-col>
     </v-row>
     <modal-agregar-ventas
       :add-ventas-dialog="addDialogVentas"
@@ -174,6 +198,7 @@ const addDialogVentas = ref<Boolean>(false);
 const { clientes, getClientes, getCliente, cliente1 } = useClientes();
 const {createVenta} = useVentas()
 const dialogDetail = ref(false);
+const imageVenta = ref(null)
 const headers = ref([
   {
     title: "Descripcion",
@@ -231,15 +256,18 @@ const irAtras = () => {
 const closeDialog = () => {
   addDialogVentas.value = !addDialogVentas.value;
 };
-const onChangeCliente = async (value: string) => {
+const onChangeCliente = async (value: any) => {
   try {
-    await getCliente({ nombreComercial: value });
-    cliente.id = cliente1.value.id;
-    cliente.nombre = cliente1.value.nombre_comercial;
-    cliente.nit = cliente1.value.nit;
-    cliente.dui = cliente1.value.dui;
-    cliente.direccion = cliente1.value.direccion;
-    cliente.registro = cliente1.value.n_registro;
+    await getCliente(value.id);
+    console.log(value);
+    
+    cliente.id = cliente1.value?.id;
+    cliente.nombre = cliente1.value?.nombreComercial;
+    cliente.nit = cliente1.value?.nit;
+    cliente.dui = cliente1.value?.dui;
+    cliente.direccion = cliente1.value?.direccion;
+    cliente.registro = cliente1.value?.n_registro;
+console.log(cliente);
 
   } catch (error) {
     console.error(error);
@@ -277,7 +305,8 @@ const guardarVenta = async() => {
     overlay.value=true
     const obj= {
         clienteId:cliente.id,
-        detalleVentas:items
+        detalleVentas:items,
+        image:imageVenta.value
     }
     
     await createVenta(obj)
@@ -289,6 +318,9 @@ const guardarVenta = async() => {
     router.push({name:"ventas"})
   }
 };
+const onImageChange = (e: any) => {
+  imageVenta.value = e
+};
 const obtenerClientes = async()=>{
   await getClientess({ esCliente: 1 });
 }
@@ -299,7 +331,7 @@ onMounted(async () => {
 <style scoped>
 .fab-button {
   position: fixed;
-  bottom: 24px;
+  bottom: 70px;
   right: 24px;
   width: 56px;
   height: 56px;

@@ -85,6 +85,17 @@ export function useClientes(){
         }
     }
 
+    const updateCliente = async (id:number, params:ClientesInterfaces)=>{
+        try {
+            const response = await clientesStore.updatedCliente(id,params)
+            if (response) {
+                return true
+            }
+        } catch (error) {
+            
+        }
+    }
+
     const eliminarClientes = async (id:number)=>{
         try {
             await clientesStore.eliminarCliente(id)
@@ -102,6 +113,7 @@ export function useClientes(){
         pagination,
         eliminarClientes,
         getClient,
-        cliente1
+        cliente1,
+        updateCliente
     }
 }

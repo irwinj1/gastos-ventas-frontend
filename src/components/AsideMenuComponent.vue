@@ -10,7 +10,7 @@
 
           <!-- Logo + Título -->
           <v-col class="d-flex align-center ml-10" >
-            <v-img :src="logoNegro" max-width="40" class="mr-2" contain></v-img>
+            <v-img :src="isDark?logoBlanco:logoNegro" max-width="40" class="mr-2" contain></v-img>
             <span class="text-h6 font-weight-medium">Admin Panel</span>
           </v-col>
         </v-row>
@@ -31,6 +31,8 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import logoNegro from '../assets/img/logo.png'
+import logoBlanco from '/src/assets/img/logo_blanco.png' 
+import { useTheme } from 'vuetify/lib/composables/theme.mjs'
 
 const props = defineProps({
   drawer: Boolean,
@@ -38,6 +40,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:drawer'])
+const theme = useTheme()
+
+const isDark = computed(() => theme.global.name.value === 'dark')
 
 const toggleDrawer = () => {
   emit('update:drawer')

@@ -98,7 +98,8 @@ const updatePage = async (page: number, params?: any) => {
 }
 const verCliente = async (item: ClientesInterfaces) => {
     try {
-
+console.log(item);
+        router.push({'name':'verCliente',params:{id:item.id}})
     } catch (error) {
 
     }

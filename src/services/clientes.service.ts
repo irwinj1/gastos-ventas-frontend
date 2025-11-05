@@ -12,11 +12,14 @@ const getCliente = async (id?: number) => {
   
     return await httpClient.get(url);
   };
+const updateCliente = async (id:number,params?:any) => await httpClient.put(`/admin/clientes/actualizar/${id}`,params)
 
 const elminarCliente = async (id:number)=> await httpClient.delete(`/admin/clientes/eliminar/${id}`)
+
 export {
     getClientes,
     postClientes,
     getCliente,
+    updateCliente,
     elminarCliente
 }

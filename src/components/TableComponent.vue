@@ -21,7 +21,7 @@
       </template>
     </v-data-table>
   </v-row>
-  <div class="text-center">
+  <div class="text-center mt-4">
     <v-pagination
       :length="pagination || 1"
       v-model="currentPage"
@@ -62,13 +62,12 @@ const onPageChange = (page: number) => {
 };
 </script>
 <style scoped>
-.table-component :deep(thead)  {
+/* .table-component :deep(thead)  {
   background-color: #212121;
   color: aliceblue;
 }
 
 .table-component :deep(thead:focus) {
-
   color: aliceblue;
-}
+} */
 </style>
