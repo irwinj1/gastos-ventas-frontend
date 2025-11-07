@@ -19,9 +19,24 @@
       <v-icon>{{ isDark ? 'mdi-white-balance-sunny' : 'mdi-weather-night' }}</v-icon>
     </v-btn>
 
-    <v-btn icon>
-      <v-icon>mdi-account-circle</v-icon>
-    </v-btn>
+    <v-menu
+      v-model="menu"
+      location="bottom end"
+      transition="scale-transition"
+    >
+      <template #activator="{ props }">
+        <v-btn icon v-bind="props">
+          <v-icon>mdi-account-circle</v-icon>
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item @click="logout">
+          <v-list-item-title class="text-red-600">Cerrar sesión</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
   </v-app-bar>
 </template>
 
@@ -29,7 +44,10 @@
 import logoBlanco from '/src/assets/img/logo_blanco.png'
 import logoNegro from '/src/assets/img/logo.png'
 import { useDisplay, useTheme } from 'vuetify'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+const menu = ref(false)
+const router = useRouter()
 
 const display = useDisplay()
 
@@ -49,6 +67,14 @@ const toggleTheme = () => {
   }
 }
 
+const logout = ()=>{
+  try {
+    console.log('cerrar sesión');
+    
+  } catch (error) {
+    
+  }
+}
 defineEmits<{
   (e: 'abrir-aside'): void
 }>()
