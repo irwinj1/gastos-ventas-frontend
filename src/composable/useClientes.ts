@@ -38,7 +38,6 @@ export function useClientes(){
     const updateCliente = async (id:number, params:ClientesInterfaces)=>{
         try {
             const response = await clienteStore.updatedCliente(id,params)
-            console.log(response);
             
             if (response) {
                 return true

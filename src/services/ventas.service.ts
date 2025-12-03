@@ -5,3 +5,5 @@ export const createVentas = async(params:FormData)=>await httpClient.post('/admi
     headers: { 'Content-Type': 'multipart/form-data' } // opcional, Axios lo detecta automáticamente
   })
 export const deleteVentas = async (id:number)=>await httpClient(`/admin/ventas/delete/${id}`)
+
+export const getVenta = async (id:number)=>await httpClient(`/admin/ventas/show/${id}`)

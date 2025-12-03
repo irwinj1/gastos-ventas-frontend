@@ -76,9 +76,7 @@ export const useClientesStore = defineStore('storeClientes',{
         },
 
         async updatedCliente (id:number, params:ClientesInterfaces){
-            try {
-                console.log(params);
-                
+            try {                
                 const response = await updateCliente(id,params);
                 
                 if (response?.data?.status == 200) {

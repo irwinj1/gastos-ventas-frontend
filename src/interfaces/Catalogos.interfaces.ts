@@ -20,3 +20,20 @@ export interface DistritosInterfaces {
     id?:number | null;
     nombre?: string | null;
 }
+
+export interface Pagination {
+    current_page?: number;
+    last_page?: number;
+    per_page?: number;
+    total?: number;
+}
+
+export interface ArchivosInterfaces{
+    id?:number,
+    nombreArchivo?:string,
+    ruta?:string,
+    extension?:string,
+    tamanio?:number,
+    img?:string,
+   
+}

@@ -3,7 +3,7 @@
     <v-card
       prepend-icon="mdi-account"
       title="Detalle venta"
-      width="700"
+     
       rounded="xl"
     >
       <v-form @submit.prevent="agregarDetalle" ref="vForm">

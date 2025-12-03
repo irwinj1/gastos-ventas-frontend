@@ -21,6 +21,11 @@ export function useClientes(){
             key: 'id',
         },
         {
+            title: 'Nombre comercial',
+            align: 'start',
+            key: 'nombreComercial',
+        },
+        {
             title: 'Nombre',
             align: 'start',
             key: 'nombre',
@@ -29,11 +34,6 @@ export function useClientes(){
             title: 'Apellido',
             align: 'start',
             key: 'apellido',
-        },
-        {
-            title: 'Nombre comercial',
-            align: 'start',
-            key: 'nombreComercial',
         },
         {
             title: 'DUI',

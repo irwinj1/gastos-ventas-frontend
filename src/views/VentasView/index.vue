@@ -60,7 +60,7 @@
           </v-col>
           
           <v-col cols="12" md="3" sm="12">
-            <v-btn class="text-none" color="grey-darken-4" @click="buscarVentas"
+            <v-btn class="text-none" @click="buscarVentas"
               >buscar</v-btn
             >
           </v-col>
@@ -71,7 +71,7 @@
     <v-col cols="auto">
       <v-btn
         class="text-none"
-        color="grey-darken-4"
+        
         width="120"
         :disabled="selected.length === 0"
         @click="descargarPDF"
@@ -83,7 +83,7 @@
     <v-col cols="auto" class="ml-2">
       <v-btn
         class="text-none"
-        color="grey-darken-4"
+        
         width="120"
         @click="irVenta"
       >
@@ -114,11 +114,12 @@
       </template>
       <template v-slot:[`item.acciones`]="{ item }">
         <v-row>
-          <v-btn density="compact" icon="mdi-eye-outline" elevation="0"></v-btn>
+          <v-btn density="compact" icon="mdi-eye-outline" elevation="0" @click="verVenta(item)"></v-btn>
           <v-btn
             density="compact"
             icon="mdi-pencil-outline"
             elevation="0"
+            @click="editarVentas(item)"
           ></v-btn>
           <v-btn
             density="compact"
@@ -230,6 +231,12 @@ const eliminarVenta = (item: ClientesInterfaces) => {
   try {
   } catch (error) {}
 };
+const verVenta = (item:any)=>{
+  router.push({ name: "ver-venta", params: { id: item.id } });
+}
+const editarVentas = (item:any)=>{
+  router.push({ name: "editar-venta", params: { id: item.id } });
+}
 const descargarPDF = () => {
   console.log(selected);
 };

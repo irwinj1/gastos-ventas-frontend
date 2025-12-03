@@ -5,13 +5,13 @@
         <form-cliente-component ref="clienteForm" :is-goback="isGoback" :cliente-data="cliente1" :is-updated="isUpdateCliente" :is-ver-cliente="isVerCliente"></form-cliente-component>
         <v-row class="d-flex justify-center">
           <v-col cols="auto">
-            <v-btn class="text-none" rounded="lg" variant="outlined" color="grey-darken-4" @click="goBack">
+            <v-btn class="text-none" rounded="lg" variant="outlined"  @click="goBack">
               Cancelar
             </v-btn>
           </v-col>
 
           <v-col cols="auto" v-if="!isVerCliente">
-            <v-btn class="text-none" rounded="lg" color="grey-darken-4" @click="updateCliente">Actualizar</v-btn>
+            <v-btn class="text-none" rounded="lg"  @click="updateCliente">Actualizar</v-btn>
           </v-col>
         </v-row>
       </v-card-text>

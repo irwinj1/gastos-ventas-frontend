@@ -1,43 +1,11 @@
 import { defineStore } from "pinia";
-import { getVentas,createVentas, deleteVentas } from "../services";
+import { getVentas,createVentas, deleteVentas, getVenta } from "../services";
+import type { VentaInterfaces,Pagination } from "../interfaces";
 
-interface Cliente{
-    id?:number,
-    nombre?:string,
-    telefono?:number,
-    direccion?:string,
-    dui?:string|null,
-    nit?:string|null,
-    createdAt?:Date;
-}
 
-interface DetalleVenta{
-    id?:number,
-    id_venta?:number,
-    descripcion?:string,
-    cantidad?:number,
-    precioUnitario?:number,
-    ventasAfectadas?:number,
-    createdAt?:Date
-}
-
-interface Venta {
-    id?: number;
-    cliente?:Cliente,
-    detalleVentas?:DetalleVenta[]
-    total?:number
-  }
-  
-  interface Pagination {
-    current_page?: number;
-    last_page?: number;
-    per_page?: number;
-    total?: number;
-  }
-  
   interface VentasState {
-    ventas: Venta[]|null;
-    venta: Venta | null;
+    ventas: VentaInterfaces[]|null;
+    venta: VentaInterfaces | null;
     pagination: Pagination | null;
   }
   
@@ -48,7 +16,7 @@ export const useVentasStore = defineStore('storeVentas',{
         pagination:null
     }),
     actions:{
-       async getVentas(page:number,params?:any){
+      async getVentas(page:number,params?:any){
             try {
                 const response = await getVentas(page,params)
                
@@ -64,11 +32,10 @@ export const useVentasStore = defineStore('storeVentas',{
                 console.error(error);
                 
             }
-        },
-        async createVenta(params: any) {
+      },
+      async createVenta(params: any) {
             try {
-             
-              
+
                 const formData = new FormData();
               
                 // Convertimos detalleVentas a JSON
@@ -78,7 +45,19 @@ export const useVentasStore = defineStore('storeVentas',{
                 if (params.clienteId) {
                   formData.append("clienteId", params.clienteId);
                 }
-              
+                //fecha de facturacion
+                if (params.fechaFactura) {
+                  const date = new Date(params.fechaFactura);
+                  if (!isNaN(date.getTime())) {
+                    formData.append(
+                      "fechaFactura",
+                      date.toISOString().slice(0, 19).replace('T', ' ')
+                    );
+                  } else {
+                    console.error("Fecha inválida:", params.fechaFactura);
+                  }
+                }
+                
                 // Adjuntar imágenes
                // params.detalleVentas.forEach((item:any, index:any) => {
                   
@@ -94,8 +73,19 @@ export const useVentasStore = defineStore('storeVentas',{
               } catch (error) {
                 console.error(error);
               }
-          },
-          async eliminarFactura(id:number){
+      },
+      async getVentaID(id:number){
+        try {
+          const response = await getVenta(id);
+         
+          this.venta = response?.data?.data;
+        
+          
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      async eliminarFactura(id:number){
             try {
                 const response = await deleteVentas(id);
                 return response.data
@@ -103,6 +93,6 @@ export const useVentasStore = defineStore('storeVentas',{
                 console.error(error);
                 
             }
-          }
+      }
     }
 })

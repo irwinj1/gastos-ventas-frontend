@@ -42,6 +42,7 @@ const login = async () => {
     console.error(error);
     
    } finally{
+    document.cookie = `token=${results.value?.access_token}; path=/`;
     localStorage.setItem('token',results.value?.access_token)
     overlay.value=false
     window.location.replace('/')

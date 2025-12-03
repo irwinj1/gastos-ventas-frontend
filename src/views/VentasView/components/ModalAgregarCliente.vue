@@ -187,8 +187,6 @@ const submitForm = async () => {
     return;
   }
 
-  console.log("Cliente a guardar:", cliente);
-
   try {
     loading.value = true;
     await postCliente(cliente);
@@ -296,9 +294,7 @@ const onClienteSeleccionado = (value: string) => {
       (c) => c.nombreComercial === value.nombreComercial
     );
 
-    if (seleccionado) {
-      console.log(seleccionado);
-      
+    if (seleccionado) {      
       cliente.nombre = seleccionado?.nombre;
       cliente.apellido = seleccionado?.apellido;
       cliente.dui = seleccionado?.dui;

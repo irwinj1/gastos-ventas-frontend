@@ -5,6 +5,7 @@ export function useVentas() {
   const ventasStore = useVentasStore();
   const ventas = computed(() => ventasStore.ventas);
   const pagination = computed(() => ventasStore.pagination);
+  const venta = computed(()=>ventasStore.venta)
 
   const cargarVentas = async (page:number,params?:any) => {
     await ventasStore.getVentas(page,params);
@@ -24,11 +25,21 @@ export function useVentas() {
     }
   }
 
+  const getVentaID = async (id:number)=>{
+    try {
+      await ventasStore.getVentaID(id);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return {
     ventas,
     pagination,
     cargarVentas,
     createVenta,
-    eliminarFactura
+    eliminarFactura,
+    getVentaID,
+    venta
   };
 }

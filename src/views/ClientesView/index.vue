@@ -98,7 +98,6 @@ const updatePage = async (page: number, params?: any) => {
 }
 const verCliente = async (item: ClientesInterfaces) => {
     try {
-console.log(item);
         router.push({'name':'verCliente',params:{id:item.id}})
     } catch (error) {
 
@@ -118,7 +117,6 @@ const eliminarCliente = async (item: ClientesInterfaces) => {
         titulo.value = "Eliminar cliente"
         message.value = "Se eliminara el cliente selecionado"
         submessage.value = "¿Esta seguro eliminar el cliente?"
-        console.log(item.id);
         idClient.value = Number(item?.id)
 
     } catch (error) {
